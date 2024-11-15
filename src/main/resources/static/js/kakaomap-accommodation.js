@@ -182,7 +182,7 @@ fetch("/api/accommodation-data")
             const position = new kakao.maps.LatLng(accommodation.latitude, accommodation.longitude);
             const overlayContent = createAccommodationContent(accommodation);
             const overlay = createOverlay(overlayContent, map, position);
-            const marker = createAccommodationMarker(position, "/images/icons/exh.svg", map, overlay); // 오버레이를 전달
+            const marker = createAccommodationMarker(position, "/images/icons/marker.svg", map, overlay); // 오버레이를 전달
 
             // 마커 클릭 시 오버레이 표시
             kakao.maps.event.addListener(marker, 'click', function () {

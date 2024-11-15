@@ -40,6 +40,7 @@ public class CommunityController {
         @RequestParam(name = "page", defaultValue = "0") int page,
         @RequestParam(name = "size", defaultValue = "10") int size) {
         Slice<CommunityPostListResponse> allCommunityPosts = communityPostService.getAllCommunityPosts(page, size);
+        log.info("nGrinder 부하테스트 진행 중... ");
         return new ResponseEntity<>(allCommunityPosts, HttpStatus.OK);
     }
 
