@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <link rel="stylesheet" th:href="@{/css/flea-market.css}"/>
-
+  <link href="/css/kakaomap-flemarket-detail.css" rel="stylesheet">
   <title>중고거래</title>
 </head>
 <main class="main-container" layout:fragment="main">
@@ -47,6 +47,8 @@
       </div>
       <div class="flea-market-product-price"></div>
       <div class="flea-market-product-text"></div>
+      <div th:replace="~{/kakaomap/kakaomap-flemarket-detail :: flemarketDetailMapFragment}"></div>
+
     </div>
     <div class="tool-box">
       <div class="wish-btn">♥</div>

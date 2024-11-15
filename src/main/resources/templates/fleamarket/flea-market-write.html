@@ -6,6 +6,7 @@
   <title>글쓰기</title>
   <link href="/css/fleamarket-write.css" rel="stylesheet">
   <link href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css" rel="stylesheet">
+  <link href="/css/kakaomap-flemarket.css" rel="stylesheet">
 </head>
 
 <main class="write-container" layout:fragment="main">
@@ -47,9 +48,10 @@
           </div>
         </div>
       </div>
+      <div th:replace="~{/kakaomap/kakaomap-flemarket :: flemarketMapFragment}"></div>
       <div class="form-btn">
         <button class="cancel-btn" id="cancel-btn" onclick="window.location.href='/fleamarket'" type="button">취소하기</button>
-        <button class="submit-btn" id="submit-btn" type="submit">등록하기</button>
+        <button class="submit-btn" id="fle-market-submit-btn" type="submit">등록하기</button>
       </div>
     </form>
   </div>
@@ -66,5 +68,8 @@
   <script defer src="/js/flea-market-write.js"></script>
   <script src="/js/ckeditor.js" type="module"></script>
   <script src="/js/uploadadapter.js"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=1330cd31f56b3c0190d9b719e06fe432&libraries=services"
+          type="text/javascript"></script>
+  <script src="/js/kakaomap-flemarket.js" type="text/javascript"></script>
 </main>
 </html>

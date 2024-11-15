@@ -30,8 +30,12 @@ document.getElementById("fleamarket-post-form").addEventListener("submit",
         productCategoryId: parseInt(categoryId),
         content,
         isFree,
-        isPriceOffer
+        isPriceOffer,
+          writeLastMakerLat,
+          writeLastMakerLon,
+          writeLocationName
       };
+      console.log(postData);
 
       fetch("/api/fleamarket/save", {
         method: "POST",

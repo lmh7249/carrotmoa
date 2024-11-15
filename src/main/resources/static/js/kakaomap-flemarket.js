@@ -3,7 +3,10 @@ var marker;
 var locPosition;
 var lat;
 var lon;
-// var lastMakerPosition;
+
+let writeLastMakerLat;
+let writeLastMakerLon;
+let writeLocationName;
 
 // 기본 위도 경도 설정
 let jhtaLat = 37.572927; // lat = 위도, y
@@ -123,16 +126,16 @@ function handleConfirm() {
 }
 
 function handleRegistration() {
-  let locationName = document.getElementById('locationInput').value;
+  writeLocationName = document.getElementById('locationInput').value;
   let confirmButton = document.getElementById('confirmButton');
   let inputSection = document.getElementById('inputSection');
 
-  if (locationName) {
-    alert('등록된 장소: ' + locationName); // 예시로 알림창으로 출력
+  if (writeLocationName) {
+    alert('등록된 장소: ' + writeLocationName); // 예시로 알림창으로 출력
     // 추가적인 기능 구현 가능 (예: 서버에 전송)
 
     // 인포윈도우 생성
-    var iwContent = `<div style="padding:5px;" > ${locationName}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var iwContent = `<div style="padding:5px;" > ${writeLocationName}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
         iwPosition = new kakao.maps.LatLng(lat, lon); //인포윈도우 표시 위치입니다
     // 인포윈도우를 생성합니다
     var infowindow = new kakao.maps.InfoWindow({
@@ -145,11 +148,12 @@ function handleRegistration() {
     confirmButton.style.display = 'none'; // 버튼 숨기기
     inputSection.style.display = 'none'; // 입력 섹션 숨기기
 
-    const lastMakerLat = marker.getPosition().Ma;
-    const lastMakerLon = marker.getPosition().La;
+    writeLastMakerLat = marker.getPosition().Ma;
+    writeLastMakerLon = marker.getPosition().La;
 
-    console.log("마지막 마커의 위도 : " + lastMakerLat);
-    console.log("마지막 마커의 경도 : " + lastMakerLon);
+    console.log("마지막 마커의 위도 : " + writeLastMakerLat);
+    console.log("마지막 마커의 경도 : " + writeLastMakerLon);
+    console.log("장소 이름 : " + writeLocationName);
 
     var geocoder = new kakao.maps.services.Geocoder();
 

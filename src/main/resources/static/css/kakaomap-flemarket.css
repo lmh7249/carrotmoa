@@ -1,8 +1,8 @@
 .map_wrap {
   position: relative;
   overflow: hidden;
-  width: 900px; /* 지도 크기와 일치 */
-  height: 600px; /* 지도 크기와 일치 */
+  width: 800px; /* 지도 크기와 일치 */
+  height: 560px; /* 지도 크기와 일치 */
 }
 
 #map {
