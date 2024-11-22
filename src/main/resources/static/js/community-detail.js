@@ -65,69 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.log("에러 발생: ", error));
 });
 
-function createCommentHtml(data) {
-    const isPostWriter = postUserId === data.userId;
-    const isCommentWriter = currentUserId === data.userId;
-    const childTag = data.parentId ? '<div class="child-comment"></div>' : '';
-    return `
-<div class="detail-comment-wrap-replytag" >
- ${childTag}
-    <div class="detail-comment-wrap" data-comment-id="${data.id}" data-comment-depth="${data.depth}" data-comment-order="${data.orderInGroup}">
-      <div class="detail-comment-header">
-        <div class="detail-comment-profile">
-          <img src="${data.picUrl}" alt="유저 프로필 사진" id="commentUserProfile">
-        </div>
-        <div class="comment-user-info">
-          <div class="detail-comment-nickname">
-            <a href="/" id="commentUserNickname">${data.nickname}</a>
-            ${isPostWriter ? `<img src="/images/community/post-writer.svg" alt="게시글 작성자 댓글" id="postWriter" class="post-writer">` : ''}
-          </div>
-          
-          <div class="detail-comment-region-name" id="commentUserRegion">
-            <span>${data.region2DepthName}</span>
-            <span>${data.region3DepthName}</span>
-            <div class="detail-comment-time-wrap">
-                <time class="detail-comment-time" id="commentCreatedAt"> · ${data.formattedCreatedAt}</time>
-            </div>
-          </div>
-        </div>
-        
-        <button class="moreOptionsButton">
-          <img src="/images/community/more-options.svg" alt="더보기 옵션">
-        </button>
-        <div class="overlay comment-overlay"></div>
-        <div class="dropdown-content">
-         ${!isCommentWriter ? `<button class="reportComment">댓글 신고</button>` : ''} 
-         ${isCommentWriter ? `<button class="editComment">댓글 수정</button>` : ''} 
-          ${isCommentWriter ? `<button class="deleteComment">댓글 삭제</button>` : ''} 
-        </div>
-      </div>
-      <div class="detail-comment-content">
-        <p id="commentContent">${data.content}</p>
-      </div>
-      <div class="reply-button-wrapper" id ="replyBtnWrapper">
-        <button class="comment-like-button" id="commentLikeButton">
-          <img src="/images/community/unlike.svg" alt="댓글 좋아요" id="commentLikeIcon"/>
-          <span id="commentLikeCount">좋아요</span>
-        </button>
-        <button class="reply-button" data-comment-id="${data.id}">
-          <img src="/images/community/detail-comment.svg" alt="답글" id="replyIcon"/>
-          <span>답글쓰기</span>
-        </button>
-      </div>
-      <section class="reply-input-section">
-        <div class="reply-input">
-          <form id="replyCommentForm">
-                      <textarea placeholder class="reply-input-field" id="replyInput"
-                                name="replyContent" placeholder = "답글을 입력하세요.."></textarea>
-            <button class="reply-submit-button" id="submitReplyBtn">답글 등록</button>
-          </form>
-        </div>
-      </section>
-    </div>
-</div>
-  `;
-}
 
 document.addEventListener("DOMContentLoaded", function () {
     const commentsList = document.getElementById("commentsList");
@@ -418,10 +355,10 @@ function renderCommentHtml(data) {
                 <p id="commentContent">${data.content}</p>
             </div>
             <div class="reply-button-wrapper" id="replyBtnWrapper">
-                <button class="comment-like-button" id="commentLikeButton">
-                    <img src="/images/community/unlike.svg" alt="댓글 좋아요" id="commentLikeIcon"/>
-                    <span id="commentLikeCount">좋아요</span>
-                </button>
+<!--                <button class="comment-like-button" id="commentLikeButton">-->
+<!--                    <img src="/images/community/unlike.svg" alt="댓글 좋아요" id="commentLikeIcon"/>-->
+<!--                    <span id="commentLikeCount">좋아요</span>-->
+<!--                </button>-->
                 <button class="reply-button" data-comment-id="${data.id}">
                     <img src="/images/community/detail-comment.svg" alt="답글" id="replyIcon"/>
                     <span>답글쓰기</span>

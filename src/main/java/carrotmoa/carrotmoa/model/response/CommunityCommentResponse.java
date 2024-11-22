@@ -34,28 +34,11 @@ public class CommunityCommentResponse {
     private String formattedCreatedAt;
     private String formattedUpdatedAt;
 
-//    public CommunityCommentResponse(CommunityComment comment, UserProfile userProfile, UserAddress userAddress) {
-//        this.id = comment.getId();
-//        this.communityPostId = comment.getCommunityPostId();
-//        this.parentId = comment.getParentId();
-//        this.userId = comment.getUserId();
-//        this.nickname = userProfile.getNickname();
-//        this.picUrl = userProfile.getPicUrl();
-//        this.region2DepthName = userAddress.getRegion2DepthName();
-//        this.region3DepthName = userAddress.getRegion3DepthName();
-//        this.content = comment.getContent();
-//        this.depth = comment.getDepth();
-//        this.orderInGroup = comment.getOrderInGroup();
-//        this.isDeleted = comment.isDeleted();
-//        this.createdAt = comment.getCreatedAt();
-//        this.updatedAt = comment.getUpdatedAt();
-//    }
-
     @QueryProjection
     public CommunityCommentResponse(Long id, Long communityPostId, Long parentId, Long userId,
-        String nickname, String picUrl, String region2DepthName,
-        String region3DepthName, String content, int depth, int orderInGroup,
-        boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+                                    String nickname, String picUrl, String region2DepthName,
+                                    String region3DepthName, String content, int depth, int orderInGroup,
+                                    boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.communityPostId = communityPostId;
         this.parentId = parentId;

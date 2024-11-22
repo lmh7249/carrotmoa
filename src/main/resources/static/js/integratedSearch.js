@@ -1,12 +1,8 @@
-let communitySearchCurrentPage = 0; // 커뮤니티 페이지 번호
-let accommodationSearchCurrentPage = 0; // 숙소 페이지 번호
-let fleamarketSearchCurrentPage = 0;
 let searchCurrentPage = 0; // 현재 페이지 번호
 const searchPageSize = 6; // 페이지당 항목 수
 
 document.addEventListener("DOMContentLoaded", function () {
-    const integratedSearchInput = document.getElementById(
-        "integrated-search-input");
+    const integratedSearchInput = document.getElementById("integrated-search-input");
 
     // 엔터 키 감지 이벤트 추가
     integratedSearchInput.addEventListener("keypress", function (event) {
@@ -24,128 +20,47 @@ document.addEventListener("DOMContentLoaded", function () {
 // 검색 api 호출
 function searchIntegratedResults(keyword, page, size) {
     // . 동네생활 API 호출
-    const communityFetch = fetch(
-        `/api/integrated-search/community?keyword=${keyword}&page=${page}&size=${size}`)
+    const communityFetch = fetch(`/api/integrated-search/community?keyword=${keyword}&page=${page}&size=${size}`)
         .then(response => response.json());
 
     // 2. 숙소 API 호출
-    const accommodationFetch = fetch(
-        `/api/integrated-search/accommodation?keyword=${keyword}&page=${page}&size=${size}`)
+    const accommodationFetch = fetch(`/api/integrated-search/accommodation?keyword=${keyword}&page=${page}&size=${size}`)
         .then(response => response.json());
 
     // 3. 중고거래 API 호출 예정
-    const fleamarketFetch = fetch(
-        `/api/integrated-search/fleamarket?keyword=${keyword}&page=${page}&size=${size}`)
-    .then(response => response.json());
 
-    Promise.all([communityFetch, accommodationFetch, fleamarketFetch])
-        .then(([communityData, accommodationData, fleamarketData]) => {
+    Promise.all([communityFetch, accommodationFetch])
+        .then(([communityData, accommodationData]) => {
             console.log("동네생활 검색 결과: ", communityData)
             console.log("숙소정보 검색 결과: ", accommodationData)
-            console.log("숙소정보 검색 결과: ", fleamarketData)
             if (page === 0) {
                 clearPreviousResults(); // 첫 페이지일 경우 기존 결과를 지움
             }
             renderCommunityResults(communityData);  // 동네생활 데이터 렌더링
             renderAccommodationResults(accommodationData);  // 숙소 데이터 렌더링
-            renderFleamarketResults(fleamarketData);  // 동네생활 데이터 렌더링
         })
         .catch(error => console.error('Error fetching search results:', error));
 }
 
-function renderFleamarketResults(data) {
-    if (data.content.length === 0) return;
-
-    createSearchResultSection();
-    const resultContainer = createResultContainer('fleamarket', '중고거래', 'product-list');
-    const articlesWrap = resultContainer.querySelector('#product-list');
-
-    data.content.forEach(item => {
-        const article = document.createElement('article');
-        article.className = 'flea-market-article';
-
-        const postLink = `/fleamarket/posts/${item.id}`;
-
-        // 기본 이미지 설정
-        let imageUrl = '/images/sample.png';
-
-        // 이미지 가져오기 API 호출
-        fetch(`/api/fleamarket/images/${item.id}`)
-        .then(response => response.json())
-        .then(images => {
-            if (images.length > 0) {
-                imageUrl = images[0].imageUrl;  // 첫 번째 이미지 URL 사용
-            }
-            // 이미지와 게시물 내용 설정
-            article.innerHTML = `
-                    <a class="post-link" href="${postLink}">
-                        <div class="article-image">
-                            <img alt="${item.title}" src="${imageUrl}" onerror="this.src='/images/sample.png'">
-                        </div>
-                        <div class="article-info">
-                            <div class="title article-title">${item.title}</div>
-                            <div class="price article-price">${Number(item.price).toLocaleString()} 원</div>
-                            <div class="address article-address">${item.region1DepthName} ${item.region2DepthName}</div>
-                            <div>
-                                <span class="article-like">관심 10</span>
-                                <span>ㅤ</span>
-                                <span class="article-chat">채팅 10</span>
-                            </div>
-                        </div>
-                    </a>`;
-            articlesWrap.appendChild(article);
-        })
-        .catch(error => {
-            console.error('이미지 로드 실패:', error);
-            article.innerHTML = `
-                    <a class="post-link" href="${postLink}">
-                        <div class="article-image">
-                            <img alt="${item.title}" src="${imageUrl}">
-                        </div>
-                        <div class="article-info">
-                            <div class="title article-title">${item.title}</div>
-                            <div class="price article-price">${Number(item.price).toLocaleString()} 원</div>
-                            <div class="address article-address">${item.region1DepthName} ${item.region2DepthName}</div>
-                            <div>
-                                <span class="article-like">관심 10</span>
-                                <span>ㅤ</span>
-                                <span class="article-chat">채팅 10</span>
-                            </div>
-                        </div>
-                    </a>`;
-            articlesWrap.appendChild(article);
-        });
-    });
-
-    manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
-}
-
 // 커뮤니티 게시판 렌더링 함수
 function renderCommunityResults(data) {
-    if (data.content.length === 0) {
-        return;
-    } // 검색 결과가 없으면 종료
+    if (data.content.length === 0) return; // 검색 결과가 없으면 종료
 
     createSearchResultSection(); // 통합 섹션 생성
-    const resultContainer = createResultContainer('community', '동네생활',
-        'community-wrap'); // 커뮤니티용 컨테이너 생성
+    const resultContainer = createResultContainer('community', '동네생활', 'community-wrap'); // 커뮤니티용 컨테이너 생성
 
     // community-wrap에 데이터 추가
     const articlesWrap = resultContainer.querySelector('#community-wrap');
-    articlesWrap.appendChild(createCommunityArticles(data.content,
-        document.getElementById("integrated-search-input").value.trim()));
+    articlesWrap.appendChild(createCommunityArticles(data.content, document.getElementById("integrated-search-input").value.trim()));
 
     manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
 
 function renderAccommodationResults(data) {
-    if (data.content.length === 0) {
-        return;
-    } // 검색 결과가 없으면 종료
+    if (data.content.length === 0) return; // 검색 결과가 없으면 종료
 
     createSearchResultSection(); // 통합 섹션 생성
-    const resultContainer = createResultContainer('accommodation', '숙소 정보',
-        'accommodation-wrap'); // 숙소용 컨테이너 생성
+    const resultContainer = createResultContainer('accommodation', '숙소 정보', 'accommodation-wrap'); // 숙소용 컨테이너 생성
 
     // accommodation-wrap에 데이터 추가
     const articlesWrap = resultContainer.querySelector('#accommodation-wrap');
@@ -175,6 +90,7 @@ function renderAccommodationResults(data) {
 
     manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
+
 
 // 커뮤니티 게시글 생성 함수
 function createCommunityArticles(communityResults, keyword) {
@@ -211,8 +127,7 @@ function createCommunityArticles(communityResults, keyword) {
             plainTextContent;
 
         // 검색어 강조 처리
-        const highlightedContent = truncatedContent.replace(regex,
-            '<mark>$1</mark>');
+        const highlightedContent = truncatedContent.replace(regex, '<mark>$1</mark>');
 
         article.innerHTML = `
             <a href="${result.postUrl}" class="article-link">
@@ -227,6 +142,9 @@ function createCommunityArticles(communityResults, keyword) {
 
     return fragment;
 }
+
+
+
 
 // 통합검색을 담을 섹션 태그 생성
 function createSearchResultSection() {
@@ -248,8 +166,7 @@ function createResultContainer(featureName, displayName, wrapId) {
     // 해당 기능의 result-container가 없으면 생성
     if (!resultContainer) {
         resultContainer = document.createElement('div');
-        resultContainer.className = 'result-container ' + featureName
-            + '-container';
+        resultContainer.className = 'result-container ' + featureName + '-container';
 
         // 기능 이름을 담은 p.article-kind 추가
         const articleKind = document.createElement('p');
@@ -261,12 +178,15 @@ function createResultContainer(featureName, displayName, wrapId) {
         articlesWrap.id = wrapId;  // 기능명-articles-wrap 형식
         articlesWrap.className = featureName + '-articles-wrap';
 
+
+
         resultContainer.appendChild(articlesWrap);
         section.appendChild(resultContainer);
     }
 
     return resultContainer;
 }
+
 
 function manageMoreButton(data, resultContainer) {
     let moreButton = resultContainer.querySelector('.more-btn');
@@ -290,13 +210,16 @@ function manageMoreButton(data, resultContainer) {
     }
 }
 
+
+
+
+
 // ---------------------------------
 
 // 더보기 버튼 클릭 시 호출되는 함수
 function loadMoreResults() {
     searchCurrentPage++; // 페이지 번호 증가
-    const keyword = document.getElementById(
-        "integrated-search-input").value.trim(); // 현재 검색어 가져오기
+    const keyword = document.getElementById("integrated-search-input").value.trim(); // 현재 검색어 가져오기
     searchIntegratedResults(keyword, searchCurrentPage, searchPageSize); // 다음 페이지 데이터 요청
 }
 
@@ -305,6 +228,7 @@ function clearPreviousResults() {
     const mainContainer = document.querySelector('main');
     mainContainer.innerHTML = ''; // 모든 내용을 지우기
 }
+
 
 function showToast(message) {
     const toast = document.getElementById("integrated-search-toast");

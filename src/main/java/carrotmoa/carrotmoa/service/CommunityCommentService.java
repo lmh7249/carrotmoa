@@ -13,11 +13,9 @@ import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.util.DateTimeUtil;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+
+import java.util.*;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -98,57 +96,8 @@ public class CommunityCommentService {
         }
     }
 
-//    @Transactional(readOnly = true)
-//    public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
-//        List<CommunityCommentResponse> commentList = communityCommentRepository.findActiveCommentsByCommunityPostId(communityPostId);
-//        int commentCount = commentList.size();
-//
-//        List<CommunityCommentResponse> structuredCommentList = new ArrayList<>();
-//
-//
-//        Map<Long, List<CommunityCommentResponse>> repliesMap = new HashMap<>();
-//
-//        // 댓글 리스트를 순회하며 대댓글을 그룹화한다.
-//        for (CommunityCommentResponse comment : commentList) {
-//            if (comment.getDepth() == 0) {
-//                // 부모 댓글인 경우, 바로 추가
-//                structuredCommentList.add(comment);
-//            } else {
-//                // 대댓글인 경우, 해당 부모 댓글에 추가
-//                repliesMap.computeIfAbsent(comment.getParentId(), k -> new ArrayList<>()).add(comment);
-//            }
-//        }
-//
-//        // 대댓글을 부모 댓글 아래에 추가하기 위해 새로운 리스트를 사용
-//        List<CommunityCommentResponse> finalStructuredCommentList = new ArrayList<>();
-//
-//        // 부모 댓글을 순회하며 대댓글을 추가하는 메서드 호출
-//        for (CommunityCommentResponse parentComment : structuredCommentList) {
-//            addCommentWithReplies(finalStructuredCommentList, parentComment, repliesMap);
-//        }
-//
-//        // 최종 결과 리스트를 원래 리스트에 대입
-//        structuredCommentList = finalStructuredCommentList;
-//
-//        // 응답 구성
-//        Map<String, Object> responseMap = new HashMap<>();
-//        responseMap.put("commentCount", commentCount);
-//        responseMap.put("commentList", structuredCommentList);
-//        return responseMap;
-//    }
-//
-//    // 재귀적으로 댓글과 대댓글을 추가하는 메서드
-//    private void addCommentWithReplies(List<CommunityCommentResponse> finalList, CommunityCommentResponse parentComment, Map<Long, List<CommunityCommentResponse>> repliesMap) {
-//        finalList.add(parentComment); // 부모 댓글 추가
-//
-//        // 대댓글이 있는 경우, 해당 부모 댓글 아래에 추가
-//        List<CommunityCommentResponse> replies = repliesMap.get(parentComment.getId());
-//        if (replies != null) {
-//            for (CommunityCommentResponse reply : replies) {
-//                addCommentWithReplies(finalList, reply, repliesMap); // 재귀 호출
-//            }
-//        }
-//    }
+
+
 
 
     @Transactional
