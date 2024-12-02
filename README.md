@@ -6,35 +6,16 @@
 - **개발 기간**: 2024.09.24 ~ 2024.11.08 (약 6주)
 - **팀 구성**: 총 5명 (팀장 1명, 팀원 4명)
 
-## 🛠 기술 스택
-### Backend
-- Java 17
-- Spring Boot 3.3.4
-- Spring Security
-- Spring Data JPA
-- QueryDSL
-- Jasypt
+## 기술 스택
 
-### Frontend
-- HTML
-- JavaScript
-- Thymeleaf
+| **분야**       | **기술 및 도구**                                                                 |
+|----------------|----------------------------------------------------------------------------------|
+| **Backend**    | Java 17, Spring Boot 3.3.4, Spring Security, Spring Data JPA, QueryDSL, Jasypt   |
+| **Frontend**   | HTML, JavaScript, Thymeleaf                                                     |
+| **Database**   | MySQL 8.0, Redis 7.4                                                            |
+| **DevOps**     | AWS RDS, AWS S3, nGrinder                                                      |
+| **Tools**      | IntelliJ, Gradle, Git & GitHub, Swagger, DataGrip                               |
 
-### Database
-- MySQL 8.0
-- Redis 7.4
-
-### DevOps
-- AWS RDS
-- AWS S3
-- nGrinder
-
-### Tools
-- IntelliJ
-- Gradle
-- Git & GitHub
-- Swagger
-- DataGrip
 
 ## 👥 팀원 소개
 - **팀장**: 로그인, 회원가입, 채팅 기능
