@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 // login이 된 상태면 -> SSE 연결하기.
     if (userObject) {
         const userId = userObject.userProfile.userId;
+
         const sse = new EventSource(`/sse/notifications/${userId}`);
         sse.onopen = function () {
             console.log('SSE 연결이 성공적으로 설정되었습니다.');
@@ -38,14 +39,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
         sse.onerror = function (err) {
-            console.error('SSE 연결 오류:', err);
+            console.error('SSE 연결 종료(1분 경과):', err);
         };
-        // 이벤트는 이름이고 이벤트.data로해서 값을 불러오는듯.
-        // 작성해준 이벤트의 이름(connect)은 클라이언트가 이벤트를 불러올 때 사용!!!
-        sse.addEventListener("connect", function (e) {
-            let datatest = e.data;
-            console.log("더미데이터 값을 받아서 사용이 가능할까? -> ", datatest)
-        });
 
     } else {
         console.log('로그인되지 않은 사용자입니다.');
@@ -57,8 +52,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (allNotificationsDeleted) {
         displayNoNotificationsMessage();
     }
-
-
 });
 
 

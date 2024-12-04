@@ -17,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommunityCategoryService {
     final private CommunityCategoryRepository categoriesRepository;
 
-    //    TODO: DB 카테고리 내용과 Redis 캐시에 있는 카테고리 값이 서로 다른 경우는 ?..
-//     -> TTL을 하루로 설정해놓았는데, 다른 설정을 또 해줘야하는지. DB와 캐시 간의 불일치를 방지하는 방법이 따로 있는지?
+
     @Cacheable(value = "communityCategories", key = "'subCategories'", cacheManager = "communityCacheManager")
     @Transactional(readOnly = true)
     public CommunityCategoryResponses getSubCategories() {

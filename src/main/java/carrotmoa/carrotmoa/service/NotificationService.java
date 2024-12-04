@@ -29,7 +29,7 @@ import static carrotmoa.carrotmoa.entity.QPayment.payment;
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationService {
-    private static final Long DEFAULT_TIMEOUT = 600L * 1000 * 60; // 연결 시간 10분
+    private static final Long DEFAULT_TIMEOUT = 60L * 1000; // 연결 시간 1분
     private final EmitterRepository emitterRepository;
     private final NotificationRepository notificationRepository;
     private final PaymentRepository paymentRepository;
@@ -37,9 +37,16 @@ public class NotificationService {
 
     // 계속 생성안되게 검증 로직 추가하기.
     public SseEmitter subscribe(Long userId) {
-//        if (emitterRepository.existsById(userId)) {
-//            return emitterRepository.getById(userId); // 기존 Emitter 반환
-//        }
+
+        // 1. 기존 연결 객체가 있는지 확인
+        SseEmitter existingEmitter = emitterRepository.get(userId);
+        if (existingEmitter != null) {
+            // 기존 연결이 있으면 먼저 정리
+            log.info("기존 SSE 연결이 존재하므로 닫습니다. userId: {}", userId);
+            existingEmitter.complete(); // 연결 종료
+            emitterRepository.deleteById(userId); // 저장소에서 삭제
+        }
+
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
         emitter.onCompletion(() -> emitterRepository.deleteById(userId));
         emitter.onTimeout(() -> emitterRepository.deleteById(userId));
@@ -121,17 +128,6 @@ public class NotificationService {
         return updatedNotificationIds;
     }
 
-//    public void sendCancelReservationNotification(Long userId, String notificationUrl) {
-//        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
-//                NotificationType.RESERVATION_CONFIRM,
-//                userId,
-//                userId,
-//                "결제가 성공적으로 취소되었습니다.",
-//                notificationUrl
-//        );
-//        UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
-//        sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
-//    }
 
     public void sendReservationNotification(NotificationType notificationType, Long senderId, Long receiverId, String notificationUrl, String message) {
         SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
