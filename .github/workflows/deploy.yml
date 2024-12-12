@@ -4,7 +4,7 @@ name: Deploy To EC2
 on:
   pull_request:
     branches:
-      - develop
+      - main
     types:
       - closed
 
