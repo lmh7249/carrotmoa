@@ -40,7 +40,7 @@ jobs:
          run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://carrotmoa-server/$GITHUB_SHA.tar.gz
 
        - name: JASYPT_PASSWORD 환경 변수 설정 (EC2 인스턴스에서 사용될)
-         uses: appleboy/ssh-action@v0.1.3
+         uses: appleboy/ssh-action@master
          with:
            host: ${{ secrets.EC2_HOST}}
            username: ${{ secrets.EC2_USERNAME}}
