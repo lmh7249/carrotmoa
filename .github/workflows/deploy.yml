@@ -1,12 +1,9 @@
 name: Deploy To EC2
 
 on:
-  pull_request:
+  push:
     branches:
-      - develop
-    types:
-      - closed
-
+     - feature/*
 
 jobs:
   Deploy:
@@ -41,7 +38,7 @@ jobs:
            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
        - name: 서버 환경 변수 설정
-         run: echo "JASYPT_PASSWORD=${{ secrets.JASYPT_PASSWORD }}" >> /home/ubuntu/.bashrc
+         run: echo "JASYPT_PASSWORD=${{ secrets.JASYPT_PASSWORD }}" >> /home/runner/.bashrc
 
        - name: S3에 프로젝트 폴더 업로드하기
          run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://carrotmoa-server/$GITHUB_SHA.tar.gz
