@@ -7,7 +7,6 @@ on:
 
 jobs:
   Deploy:
-    if: github.event.pull_request.merged == true  # 병합된 경우에만 실행
     runs-on: ubuntu-latest
     steps:
        - name: Github Repository에 올린 파일들을 불러오기
