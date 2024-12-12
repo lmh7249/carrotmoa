@@ -12,7 +12,7 @@ export JASYPT_PASSWORD="carrotsS3"
 echo "JASYPT_PASSWORD: $JASYPT_PASSWORD"
 nohup java -Djasypt.encryptor.password="$JASYPT_PASSWORD" -jar project.jar > ./output.log 2>&1 &
 
-sleep 10
+sleep 11
 sudo systemctl restart nginx
 
 echo "--------------- 서버 배포 끝 -----------------"
