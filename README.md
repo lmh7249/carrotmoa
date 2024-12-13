@@ -18,6 +18,9 @@
 | **DevOps**     | AWS RDS, AWS S3, nGrinder                                                      |
 | **Tools**      | IntelliJ, Gradle, Git & GitHub, Swagger, DataGrip                               |
 
+## 🗺️ 서버 구조
+![당근모아(서버구조)](https://github.com/user-attachments/assets/d9d28461-33ae-4ef2-bfa5-1ef1ce4aaa43)
+
 
 ## 👥 팀원 소개
 - **팀장**: 로그인, 회원가입, 채팅 기능
