@@ -102,13 +102,13 @@
 .contract_cont .room_item {
   align-items: center;
   display: flex;
-  width: 428px;
+  width: 600px;
   /*gap: 20px;*/
 }
 
 .contract_cont .room_item dt {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
 }
 
 .contract_cont .room_item dd {
@@ -118,14 +118,17 @@
 .room_item dt {
   overflow: hidden;
   position: relative;
-  width: 256px;
+  width: 162px;
   height: 162px;
   border-radius: 6px;
 }
 
 .room_img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .room_item .room_address {

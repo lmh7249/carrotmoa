@@ -16,20 +16,17 @@ public class UserViewController {
 
     @GetMapping("/login-page")
     public String userLoginForm() {
-        return "user/login-page";
-    }
+        return "user/login-page";}
 
     @GetMapping("/join-form")
     public String userJoinForm(Model model) {
         model.addAttribute("userJoinDto", new UserJoinDto());
-        return "user/join";
-    }
+        return "user/join";}
 
     @GetMapping("/my-page")
     public String userMyPage(Model model) {
-        model.addAttribute("fragment", "main");
-        return "/user/my-page";
-    }
+        model.addAttribute("fragment","main");
+        return "/user/my-page";}
 
     @GetMapping("/profile-update")
     public String userUpdateProfileForm(@AuthenticationPrincipal CustomUserDetails user, Model model) {
@@ -40,9 +37,13 @@ public class UserViewController {
 
     @GetMapping("/password-update")
     public String userPasswordUpdateForm(Model model) {
-        model.addAttribute("fragment", "profile-password-update");
-        return "/user/my-page";
-    }
+        model.addAttribute("fragment","profile-password-update");
+        return "/user/my-page";}
+
+    @GetMapping("/my-page-location")
+    public String userLocationUpdate(Model model) {
+        model.addAttribute("fragment","my-page-location");
+        return "/user/my-page";}
 
     @GetMapping("/my-page-service1")
     public String myPageService1(Model model) {
@@ -69,10 +70,10 @@ public class UserViewController {
     }
 
     @GetMapping("/modal-content")
-    public String chatTest(@AuthenticationPrincipal CustomUserDetails user, Model model) {
-        model.addAttribute("chatMessageRequest", new ChatMessageRequest(user));
-        return "/user/chat";
-    }
+    public String chatTest(@AuthenticationPrincipal CustomUserDetails user,Model model){
+        model.addAttribute("chatMessageRequest",new ChatMessageRequest(user));
+        return "/user/chat";}
+
 }
 
 

@@ -1,9 +1,11 @@
 package carrotmoa.carrotmoa.controller.api;
 
+import carrotmoa.carrotmoa.model.request.UserAddressUpdateRequest;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.model.response.FindUserResponse;
 import carrotmoa.carrotmoa.service.UserService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,11 +61,16 @@ public class UserController {
     public ResponseEntity<Boolean> userProfileUpdate(@RequestBody UserUpdateRequest userUpdateRequestDto) {
         return new ResponseEntity<Boolean>(userService.userProfileUpdate(userUpdateRequestDto), HttpStatus.OK);
     }
+    @PostMapping("/address-update")
+    public ResponseEntity<Boolean> userAddressUpdate(@RequestBody UserAddressUpdateRequest request){
+        return new ResponseEntity<>(userService.userAddressUpdate(request),HttpStatus.OK);
+    }
 
     @GetMapping("/find-user/{searchType}/{searchKeyword}")
     public ResponseEntity<FindUserResponse> findUser(@PathVariable String searchType, @PathVariable String searchKeyword) {
         return new ResponseEntity<>(userService.findUserNickname(searchType, searchKeyword), HttpStatus.OK);
     }
+
 
 }
 

@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.config.security;
 
 import carrotmoa.carrotmoa.entity.User;
+import carrotmoa.carrotmoa.repository.UserAddressRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class CustomUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserProfileRepository userProfileRepository;
+    private final UserAddressRepository userAddressRepository;
     @Value("${spring.user.profile.default-image}")
     private String defaultProfileImageUrl;
 
@@ -25,6 +27,6 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        return new CustomUserDetails(user, userProfileRepository, defaultProfileImageUrl);
+        return new CustomUserDetails(user, userProfileRepository,userAddressRepository, defaultProfileImageUrl);
     }
 }

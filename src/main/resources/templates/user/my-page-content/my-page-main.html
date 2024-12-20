@@ -22,11 +22,11 @@
         <a class="my-page-btn-edit" th:href="@{/user/password-update}">수정</a>
       </div>
 
-      <div class="my-page-main-content-item my-page-content-row">
-        <span class="my-page-item-text">사는 곳</span>
-        <a class="my-page-btn-edit" th:href="@{#}">수정</a>
-      </div>
-    </div>
+            <div class="my-page-main-content-item my-page-content-row">
+                <span class="my-page-item-text">사는 곳</span>
+                <a th:href="@{/user/my-page-location}" class="my-page-btn-edit">수정</a>
+            </div>
+        </div>
 
     <div class="my-page-main-content-header"><h4>서비스 관리</h4></div>
     <div class="my-page-main-content">
@@ -45,10 +45,11 @@
         <a class="my-page-btn-edit" th:href="@{/user/my-page-service3}">관리</a>
       </div>
 
-      <div class="my-page-main-content-item my-page-content-row">
-        <span class="my-page-item-text">동내생활</span>
-        <a class="my-page-btn-edit" th:href="@{#}">관리</a>
-      </div>
-    </div>
-  </div>
+            <div class="my-page-main-content-item my-page-content-row">
+                <span class="my-page-item-text">동내생활</span>
+                <a th:href="@{#}" class="my-page-btn-edit">관리</a>
+            </div>
+        </div>
 </div>
+</div>
+</html>

@@ -58,7 +58,7 @@ public class PaymentService {
         if ("paid".equals(payment.getStatus())) {
             Reservation reservation = saveReservation(reservationRequest);
             payment.setReservationId(reservation.getId());
-            paymentRepository.save(payment);
+//            paymentRepository.save(payment);
 
             // 계약하려는 방 호스트의 ID 받아오기
             Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
@@ -72,10 +72,12 @@ public class PaymentService {
 
             if (!reservationRequest.getUserId().equals(receiverId)) {
                 String notificationUrl = "/host/room/contract";
-                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId,
-                    reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
-                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
-                notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+                String message = roomName + "방을 예약했어요";
+                Long senderId = reservationRequest.getUserId();
+                NotificationType notificationType = NotificationType.RESERVATION_CONFIRM;
+
+                notificationService.sendReservationNotification(notificationType, senderId, receiverId, notificationUrl, message);
+                notificationService.sendReservationNotification(notificationType, senderId, senderId, notificationUrl, message); // 변수명 게스트 호스트로 변경하는게 나을 거 같음
             }
 
         }
@@ -142,27 +144,22 @@ public class PaymentService {
         // 예약
         if (payment.getReservationId() != null) {
             Reservation reservation = reservationRepository.findById(payment.getReservationId())
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
+                    .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
 
             // 예약 상태를 변경 (예약 취소: 2)
             reservation.setStatus(2);
 
-            // 게스트 예약 취소시 알림보내는 영역
-//            Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
-//                    .orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
-//
-//            Post post = postRepository.findById(accommodation.getPostId())
-//                    .orElseThrow(() -> new EntityNotFoundException("Post not found"));
-//
-//            Long receiverId = post.getUserId();
-//            String roomName = post.getTitle();
+            // 로그인 된 유저의 ID 받아오기
+            Long senderId = payment.getUserId();
+            Long receiverId = payment.getUserId();
+            String notificationUrl = "/guest/booking/list";
+            String message = "결제를 취소했어요";
+            NotificationType notificationType = NotificationType.GUEST_CANCEL;
 
-//            if (!reservationRequest.getUserId().equals(receiverId)) {
-//                String notificationUrl = "/host/room/contract";
-//                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId, reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
-//                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
-//                notificationService.sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
-//            }
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String userId = authentication.getName();
+
+            notificationService.sendReservationNotification(notificationType, senderId, receiverId, notificationUrl, message);
         }
 
     }

@@ -1,10 +1,10 @@
 // 문서가 로드된 후에 이벤트 리스너를 추가합니다.
 document.addEventListener('DOMContentLoaded', () => {
-  const cancelButton = document.getElementById('btn-cancel-booking-popup'); // ID로 버튼 선택
+  const cancelButtons = document.querySelectorAll('.btn-cancel-booking-popup'); // 클래스로 모든 버튼 선택
 
-  if (cancelButton) {
+  cancelButtons.forEach(cancelButton => {
     cancelButton.addEventListener('click', () => {
-      const impUid = cancelButton.getAttribute('data-imp-uid'); // data-imp-uid에서 impUid 가져오기
+      const impUid = cancelButton.getAttribute('data-imp-uid'); // 각 버튼에서 data-imp-uid 값을 가져오기
       console.log('impUid:', impUid); // impUid 값 로그 출력
 
       // 사용자에게 취소 여부 확인
@@ -13,11 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isConfirmed) {
         cancelBooking(impUid); // 취소가 확인되면 cancelBooking 함수 호출
       } else {
-        // console.log("결제 취소가 취소되었습니다.");
+        // 취소가 취소되었습니다.
       }
-
     });
-  }
+  });
 });
 
 // cancelBooking 함수 정의

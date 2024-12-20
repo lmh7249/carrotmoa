@@ -3,6 +3,12 @@
 // 기본 위도 경도 설정
 let jhtaLat = 37.572927;
 let jhtaLon = 126.992337;
+let userId;
+let address;
+let addressData;
+if(document.getElementById("user-id")){
+    userId = document.getElementById("user-id").value;
+}
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     mapOption = {
@@ -26,26 +32,30 @@ if (navigator.geolocation) {
     // 마커와 인포윈도우를 표시합니다
     displayMarker(locPosition);
 
-    var geocoder = new kakao.maps.services.Geocoder();
-    // 위치 정보 좌표를 얻은 후 행정 구역 반환하기
-    var addressDisplay = document.getElementById('addressDisplay');
-    var centerAddr = document.getElementById('centerAddr');
-    var callback = function (result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        for (var i = 0; i < result.length; i++) {
-          console.log(result); // 값이 행정동 값과 법정동 값 두개 들어오는데, 그 중 h로 행정동의 값만 출력함.
-          if (result[i].region_type === 'H') { // 행정동일 경우
-            console.log("행정동 이름: " + result[i].address_name); // 전체 주소 출력
-            addressDisplay.innerHTML = "현재 위치는 '" + result[i].region_3depth_name
-                + "' 입니다."
-            centerAddr.innerHTML = result[i].address_name;
-            // 행정동 이름 출력
-            break; // 첫 번째 행정동 이름만 출력
-          }
-        }
-      }
-    };
-    geocoder.coord2RegionCode(lon, lat, callback);
+        var geocoder = new kakao.maps.services.Geocoder();
+        // 위치 정보 좌표를 얻은 후 행정 구역 반환하기
+        var addressDisplay = document.getElementById('addressDisplay');
+        var centerAddr = document.getElementById('centerAddr');
+        var callback = function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                for (var i = 0; i < result.length; i++) {
+                    console.log(result); // 값이 행정동 값과 법정동 값 두개 들어오는데, 그 중 h로 행정동의 값만 출력함.
+                    if (result[i].region_type === 'H') { // 행정동일 경우
+                        console.log(userId);
+                        console.log("행정동 이름: " + result[i].address_name); // 전체 주소 출력
+                        addressDisplay.innerHTML = "현재 위치는 '" + result[i].region_3depth_name + "' 입니다."
+                        centerAddr.innerHTML = result[i].address_name;
+                        address = result[i];
+                        address.userId = userId;
+                        addressData = JSON.stringify(address);
+
+                        // 행정동 이름 출력
+                        break; // 첫 번째 행정동 이름만 출력
+                    }
+                }
+            }
+        };
+        geocoder.coord2RegionCode(lon, lat, callback);
 
   });
 
@@ -73,8 +83,40 @@ function displayMarker(locPosition) {
 
 // 현재 접속한 사용자의 주소로 부드럽게 이동
 function setCurrentLocation() {
-  var moveLatLon = new kakao.maps.LatLng(lat, lon);
-  // 지도 중심을 부드럽게 이동
-  // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동
-  map.panTo(moveLatLon);
+    var moveLatLon = new kakao.maps.LatLng(lat, lon);
+    // 지도 중심을 부드럽게 이동
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동
+    map.panTo(moveLatLon);
+}
+
+if(document.getElementById("confirmButton")){
+    document.getElementById("confirmButton").addEventListener("click",function(){
+        userAddressUpdate(addressData);
+
+    })
+}
+
+function userAddressUpdate(addressData) {
+    fetch("/api/user/address-update", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:addressData,
+    })
+        .then(response => {
+            if (!response.ok) {
+                alert("에러");
+            }
+            return response.json();
+        })
+        .then(result => {
+            if(result){
+                alert("업데이트 성공");
+                debugger;
+                window.location.href = "/user/my-page";
+            } else {
+                alert("업데이트 실패");
+            }
+        })
 }
