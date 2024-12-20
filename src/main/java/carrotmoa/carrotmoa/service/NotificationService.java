@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Notification;
+import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.NotificationType;
 import carrotmoa.carrotmoa.model.request.NotificationUpdateRequest;
 import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final RedisPublisher redisPublisher;
     private final ObjectMapper objectMapper;
+    private final UserProfileRepository userProfileRepository;
 
     public SseEmitter subscribe(Long userId) {
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
@@ -147,6 +150,18 @@ public class NotificationService {
         public SseNotificationResponse getNotification() {
             return notification;
         }
+    }
+
+    public void sendReservationNotification(NotificationType notificationType, Long senderId, Long receiverId, String notificationUrl, String message) {
+        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
+                notificationType,
+                receiverId,
+                senderId,
+                message,
+                notificationUrl
+        );
+        UserProfile senderUser = userProfileRepository.findNicknameByUserId(senderId);
+        sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
     }
 }
 
