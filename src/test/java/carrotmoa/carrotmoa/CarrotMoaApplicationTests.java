@@ -1,12 +1,12 @@
 package carrotmoa.carrotmoa;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 //@SpringBootTest
 class CarrotMoaApplicationTests {
 
-    @Test
+//    @Test
     void contextLoads() {
     }
 
