@@ -31,7 +31,7 @@ public class NotificationController {
     // 2. DB에서 수신자 아이디로 알림 리스트 가져오는 API
     @GetMapping("/api/notifications/{receiverId}")
     public ResponseEntity<List<NotificationResponse>> findNotificationsByReceiverId(
-        @PathVariable("receiverId") Long receiverId) {
+            @PathVariable("receiverId") Long receiverId) {
         List<NotificationResponse> notifications = notificationService.findNotificationsByReceiverId(receiverId);
         return ResponseEntity.ok(notifications);
     }
