@@ -3,13 +3,16 @@
       layout:decorate="~{layout/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <title>당신 근처의 당근모아</title>
-  <link rel="stylesheet" th:href="@{/css/user.css}"/>
+    <title>당신 근처의 당근모아</title>
+    <link rel="stylesheet" th:href="@{/css/user.css}"/>
+    <link rel="stylesheet" th:href="@{/css/carousel.css}">
+    <script th:src="@{/js/carousel.js}"></script>
 </head>
 
 <main layout:fragment="main">
-  <div class="cover">
-    메인페이지
-  </div>
+    <div class="cover">
+        <div th:replace="~{fragments/carousel :: carousel}"></div>
+    </div>
 </main>
+
 </html>
